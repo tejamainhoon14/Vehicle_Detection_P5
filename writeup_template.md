@@ -70,14 +70,10 @@ Ultimately I used second mwthod suggested from the Udacity class with different 
 
 ### Video Implementation
 
-#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 Here's a [link to my video result](./project_video.mp4)
 
 
 
 ### Discussion
-
-#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
-
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+In a few frames, I am missing the detection and also detecting multiple boxes for the same car. Furthermore, the detection windows are very erratic from frame to frame. In addition to this, there may be another failure mode possible which is false positives, detecting something as a car which is not. The first thing I would like to improve in this would be frame to frame tracking, somehow using the history as a measure to better track a vehicle instead of doing a blind search from scratch in an image. Secondly, I would like to implement CNN just like YOLOv2 which is the latest object detection technique and its super efficient.
 
