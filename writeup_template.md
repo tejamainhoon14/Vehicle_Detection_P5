@@ -17,7 +17,7 @@ The goals / steps of this project are the following:
 [image7]: ./output_images/Car_Detection.png
 [image8]: ./output_images/heatmap.png
 [image9]: ./output_images/Final_Detection_Image.png
-[video1]: ./project_video.mp4
+[video1]: ./project_video_output.mp4
 
 ### Histogram of Oriented Gradients (HOG)
 
@@ -70,7 +70,7 @@ Ultimately I used second mwthod suggested from the Udacity class with different 
 
 ### Video Implementation
 
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](./project_video_output.mp4)
 
 
 
