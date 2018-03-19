@@ -12,9 +12,11 @@ The goals / steps of this project are the following:
 [image2]: ./output_images/HOG_Transform_Example.png
 [image3]: ./output_images/Normalization_of_Features.png
 [image4]: ./output_images/Model_Accuracy.PNG
-[image5]: ./output_images/bboxes_and_heat.png
-[image6]: ./output_images/labels_map.png
-[image7]: ./output_images/output_bboxes.png
+[image5]: ./output_images/Sliding_Window_Image.png
+[image6]: ./output_images/Method_1_Output.png
+[image7]: ./output_images/Car_Detection.png
+[image8]: ./output_images/heatmap.png
+[image9]: ./output_images/Final_Detection_Image.png
 [video1]: ./project_video.mp4
 
 ### Histogram of Oriented Gradients (HOG)
@@ -52,17 +54,18 @@ Here is an example of output after training the model with accuracy and time to 
 
 ### Sliding Window Search
 
-#### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
+I started with the Udacity class code of sliding window and the output of which is shown below. The code cell for this seven and all the required functions are defined in code cell six. After different combinations of window size, overlap ratio and different starting and ending y co-ordinates I was able to get some accurate result as shown below:
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+![alt text][image5]
 
-![alt text][image3]
+![alt text][image6]
 
-#### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
+Ultimately I used second mwthod suggested from the Udacity class with different scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result. There are multiple duplicate frames detected for the same car, so in order to get rid of duplicate frames, as well as any possibility of erratic false positive, I created a heatmap and then thresholded that map to identify vehicle positions. I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap. Here is an example of pipeline on a test image with final output:
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
+![alt text][image7]
+![alt text][image8]
+![alt text][image9]
 
-![alt text][image4]
 ---
 
 ### Video Implementation
@@ -71,25 +74,6 @@ Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spat
 Here's a [link to my video result](./project_video.mp4)
 
 
-#### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
-
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
-
-Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
-
-### Here are six frames and their corresponding heatmaps:
-
-![alt text][image5]
-
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
-![alt text][image6]
-
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
-![alt text][image7]
-
-
-
----
 
 ### Discussion
 
