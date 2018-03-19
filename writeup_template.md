@@ -1,63 +1,54 @@
-## Writeup Template
-### You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
----
-
 **Vehicle Detection Project**
 
 The goals / steps of this project are the following:
 
 * Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier
-* Optionally, you can also apply a color transform and append binned color features, as well as histograms of color, to your HOG feature vector. 
-* Note: for those first two steps don't forget to normalize your features and randomize a selection for training and testing.
 * Implement a sliding-window technique and use your trained classifier to search for vehicles in images.
 * Run your pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.
 * Estimate a bounding box for vehicles detected.
 
 [//]: # (Image References)
-[image1]: ./examples/car_not_car.png
-[image2]: ./examples/HOG_example.jpg
-[image3]: ./examples/sliding_windows.jpg
-[image4]: ./examples/sliding_window.jpg
-[image5]: ./examples/bboxes_and_heat.png
-[image6]: ./examples/labels_map.png
-[image7]: ./examples/output_bboxes.png
+[image1]: ./output_images/Example_of_Training_Set.png
+[image2]: ./output_images/HOG_Transform_Example.png
+[image3]: ./output_images/Normalization_of_Features.png
+[image4]: ./output_images/Model_Accuracy.PNG
+[image5]: ./output_images/bboxes_and_heat.png
+[image6]: ./output_images/labels_map.png
+[image7]: ./output_images/output_bboxes.png
 [video1]: ./project_video.mp4
-
-## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
-### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
-
----
-### Writeup / README
-
-#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  [Here](https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md) is a template writeup for this project you can use as a guide and a starting point.  
-
-You're reading it!
 
 ### Histogram of Oriented Gradients (HOG)
 
-#### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
+#### 1. HOG Feature Extraction
 
-The code for this step is contained in the first code cell of the IPython notebook (or in lines # through # of the file called `some_file.py`).  
-
-I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
+The code for this step is contained in the third and fourth code cell of the VD_Pipeline jupyter notebook. In the second code cell, I have code to load all the GIT and KITTY dataset to train the classifier. I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
 
 ![alt text][image1]
 
 I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
 
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
-
+Here is an example of HOG transform for a random car image selected from training data with parameters as listed below:
+`orientations = 10`
+`pixels_per_cell=(8, 8)`
+`cells_per_block=(2, 2)`
+`color_space = 'YCrCb'`
+`hog_channel = 'ALL'`
 
 ![alt text][image2]
 
-#### 2. Explain how you settled on your final choice of HOG parameters.
+#### 2. HOG Parameter Selection
 
-I tried various combinations of parameters and...
+I tried various combination of parameters by comparing visually as shown in figure above and then later using the SVM classifier accuracy to adjust parameters to increase the model accuracy.
 
-#### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
+#### 3. Classifier Model (Linear SVM)
 
-I trained a linear SVM using...
+I trained a linear SVM using an array of concatenated features extracted as HOG Features, spatial color information and color histogram on total approximately 14,000 training images of cars and non-cars from KITTI and GTI image database combined, cars images being 8792 and non_car images being 8968. Total number of features extracted using all three methods was 8460. The code for this part is in cell 5 of the jypyter notebook. During this training, I observed how changing the image colorscale from RGB to YCrCb improved the training accuracy. With training accuracies varying in the range of 98.8 - 99.8 %, I did not tweak the network training parameters any further. Before training the network, the feature vectors were normalized so that one particular set of features do not dominate the rest. An exampe of feature normalization is shown below:
+
+![alt text][image3]
+
+Here is an example of output after training the model with accuracy and time to train the model and 10 random predictions:
+
+![alt text][image4]
 
 ### Sliding Window Search
 
